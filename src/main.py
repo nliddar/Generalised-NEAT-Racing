@@ -46,7 +46,9 @@ population = None
 class Car:
     def __init__(self):
         # Load Car Sprite and Rotate
-        self.sprite = pygame.image.load('../assets/car.png').convert()  # Convert Speeds Up A Lot
+        self.sprite = pygame.image.load(
+            "../assets/car.png"
+        ).convert()  # Convert Speeds Up A Lot
         self.sprite = pygame.transform.scale(self.sprite, (CAR_SIZE_X, CAR_SIZE_Y))
         self.rotated_sprite = self.sprite
 
@@ -57,7 +59,10 @@ class Car:
 
         self.speed_set = False  # Flag For Default Speed Later on
 
-        self.center = [self.position[0] + CAR_SIZE_X / 2, self.position[1] + CAR_SIZE_Y / 2]  # Calculate Center
+        self.center = [
+            self.position[0] + CAR_SIZE_X / 2,
+            self.position[1] + CAR_SIZE_Y / 2,
+        ]  # Calculate Center
 
         self.radars = []  # List For Sensors / Radars
         self.drawing_radars = []  # Radars To Be Drawn
@@ -91,17 +96,31 @@ class Car:
 
     def check_radar(self, degree, game_map):
         length = 0
-        x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
-        y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
+        x = int(
+            self.center[0]
+            + math.cos(math.radians(360 - (self.angle + degree))) * length
+        )
+        y = int(
+            self.center[1]
+            + math.sin(math.radians(360 - (self.angle + degree))) * length
+        )
 
         # While We Don't Hit BORDER_COLOR AND length < 300 (just a max) -> go further and further
         while not game_map.get_at((x, y)) == BORDER_COLOR and length < 300:
             length = length + 1
-            x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
-            y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
+            x = int(
+                self.center[0]
+                + math.cos(math.radians(360 - (self.angle + degree))) * length
+            )
+            y = int(
+                self.center[1]
+                + math.sin(math.radians(360 - (self.angle + degree))) * length
+            )
 
         # Calculate Distance To Border And Append To Radars List
-        dist = int(math.sqrt(math.pow(x - self.center[0], 2) + math.pow(y - self.center[1], 2)))
+        dist = int(
+            math.sqrt(math.pow(x - self.center[0], 2) + math.pow(y - self.center[1], 2))
+        )
         self.radars.append([(x, y), dist])
 
     def update(self, game_map):
@@ -128,19 +147,30 @@ class Car:
         self.position[1] = min(self.position[1], WIDTH - 120)
 
         # Calculate New Center
-        self.center = [int(self.position[0]) + CAR_SIZE_X / 2, int(self.position[1]) + CAR_SIZE_Y / 2]
+        self.center = [
+            int(self.position[0]) + CAR_SIZE_X / 2,
+            int(self.position[1]) + CAR_SIZE_Y / 2,
+        ]
 
         # Calculate Four Corners
         # Length Is Half The Side
         length = 0.5 * CAR_SIZE_X
-        left_top = [self.center[0] + math.cos(math.radians(360 - (self.angle + 30))) * length,
-                    self.center[1] + math.sin(math.radians(360 - (self.angle + 30))) * length]
-        right_top = [self.center[0] + math.cos(math.radians(360 - (self.angle + 150))) * length,
-                     self.center[1] + math.sin(math.radians(360 - (self.angle + 150))) * length]
-        left_bottom = [self.center[0] + math.cos(math.radians(360 - (self.angle + 210))) * length,
-                       self.center[1] + math.sin(math.radians(360 - (self.angle + 210))) * length]
-        right_bottom = [self.center[0] + math.cos(math.radians(360 - (self.angle + 330))) * length,
-                        self.center[1] + math.sin(math.radians(360 - (self.angle + 330))) * length]
+        left_top = [
+            self.center[0] + math.cos(math.radians(360 - (self.angle + 30))) * length,
+            self.center[1] + math.sin(math.radians(360 - (self.angle + 30))) * length,
+        ]
+        right_top = [
+            self.center[0] + math.cos(math.radians(360 - (self.angle + 150))) * length,
+            self.center[1] + math.sin(math.radians(360 - (self.angle + 150))) * length,
+        ]
+        left_bottom = [
+            self.center[0] + math.cos(math.radians(360 - (self.angle + 210))) * length,
+            self.center[1] + math.sin(math.radians(360 - (self.angle + 210))) * length,
+        ]
+        right_bottom = [
+            self.center[0] + math.cos(math.radians(360 - (self.angle + 330))) * length,
+            self.center[1] + math.sin(math.radians(360 - (self.angle + 330))) * length,
+        ]
         self.corners = [left_top, right_top, left_bottom, right_bottom]
 
         # Check Collisions And Clear Radars
@@ -281,7 +311,9 @@ def run_reactive_simulation(do_tortoise):
 
     # ---------- Select Track ---------- #
     # ---------- Run Every Track
-    map_name = "../assets/maps/map{}.png".format(reactive_tracklist[current_generation - 1])
+    map_name = "../assets/maps/map{}.png".format(
+        reactive_tracklist[current_generation - 1]
+    )
 
     # Load Map
     game_map = pygame.image.load(map_name).convert()  # Convert Speeds Up A Lot
@@ -334,7 +366,9 @@ def run_reactive_simulation(do_tortoise):
             car.draw(screen)
 
         # Display Info
-        text = generation_font.render("Stage: " + str(current_generation), True, (0, 0, 0))
+        text = generation_font.render(
+            "Stage: " + str(current_generation), True, (0, 0, 0)
+        )
         text_rect = text.get_rect()
         text_rect.center = (900, 450)
         screen.blit(text, text_rect)
@@ -350,13 +384,13 @@ def run_reactive_simulation(do_tortoise):
     # Write data to either tortoise or hare datasets
     if do_tortoise:
         # Write the distance data to the tortoise CSV file
-        with open('../data/tortoise_fitness.csv', 'a', newline='') as csv_file:
+        with open("../data/tortoise_fitness.csv", "a", newline="") as csv_file:
             # Create CSV writer object
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(car_distances)
     else:
         # Write the distance data to the hare CSV file
-        with open('../data/hare_fitness.csv', 'a', newline='') as csv_file:
+        with open("../data/hare_fitness.csv", "a", newline="") as csv_file:
             # Create CSV writer object
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(car_distances)
@@ -399,20 +433,29 @@ def run_simulation(genomes, config):
     if do_testing == 0:
         # ---------- Shuffle Tracks
         if do_shuffle == 1:
-            map_name = "../assets/maps/map{}.png".format(training_tracklist[math.ceil(current_generation %
-                                                                                      len(training_tracklist))])
+            map_name = "../assets/maps/map{}.png".format(
+                training_tracklist[
+                    math.ceil(current_generation % len(training_tracklist))
+                ]
+            )
 
         # ---------- Sequential Tracks
         else:
-            map_name = "../assets/maps/map{}.png".format(training_tracklist[math.ceil(current_generation / epochs) - 1])
+            map_name = "../assets/maps/map{}.png".format(
+                training_tracklist[math.ceil(current_generation / epochs) - 1]
+            )
     # ---------- Testing
     else:
         # ---------- Sequential Tracks
-        map_name = "../assets/maps/map{}.png".format(testing_tracklist[current_generation - 1])
+        map_name = "../assets/maps/map{}.png".format(
+            testing_tracklist[current_generation - 1]
+        )
 
     # ---------- Independent
     if do_independent != 0:
-        map_name = "../assets/maps/map{}.png".format(reactive_tracklist[do_independent - 1])
+        map_name = "../assets/maps/map{}.png".format(
+            reactive_tracklist[do_independent - 1]
+        )
 
     # Load Map
     game_map = pygame.image.load(map_name).convert()  # Convert Speeds Up A Lot
@@ -464,10 +507,13 @@ def run_simulation(genomes, config):
                 car.draw(screen)
 
         # Display Info
-        text = generation_font.render("Generation: " + str(current_generation), True, (0, 0, 0))
+        text = generation_font.render(
+            "Generation: " + str(current_generation), True, (0, 0, 0)
+        )
         if do_testing == 1:
-            text = generation_font.render("Testing Generation: " +
-                                          str(current_generation), True, (0, 0, 0))
+            text = generation_font.render(
+                "Testing Generation: " + str(current_generation), True, (0, 0, 0)
+            )
 
         text_rect = text.get_rect()
         text_rect.center = (900, 450)
@@ -491,22 +537,23 @@ def run_simulation(genomes, config):
     # Write data to independent, training or testing datasets
     if do_independent != 0 and current_generation == epochs:
         # Write the distance data to the independent CSV file (once training is finished)
-        with open('../data/independent_fitness.csv', 'a', newline='') as csv_file:
+        with open("../data/independent_fitness.csv", "a", newline="") as csv_file:
             # Create CSV writer object
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(car_distances)
     elif do_testing == 0:
         # Write the distance data to the training CSV file
-        with open('../data/training_fitness.csv', 'a', newline='') as csv_file:
+        with open("../data/training_fitness.csv", "a", newline="") as csv_file:
             # Create CSV writer object
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(car_distances)
     else:
         # Write the distance data to the testing CSV file
-        with open('../data/testing_fitness.csv', 'a', newline='') as csv_file:
+        with open("../data/testing_fitness.csv", "a", newline="") as csv_file:
             # Create CSV writer object
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(car_distances)
+
 
 # Creates NEAT population and calls run_simulation for training
 # (Author: Nadan - Uses Some Existing Code)
@@ -518,11 +565,13 @@ def simulate_training():
 
     # Load Config
     config_path = "../config/config.txt"
-    config = neat.config.Config(neat.DefaultGenome,
-                                neat.DefaultReproduction,
-                                neat.DefaultSpeciesSet,
-                                neat.DefaultStagnation,
-                                config_path)
+    config = neat.config.Config(
+        neat.DefaultGenome,
+        neat.DefaultReproduction,
+        neat.DefaultSpeciesSet,
+        neat.DefaultStagnation,
+        config_path,
+    )
 
     # Create Population And Add Reporters
     population = neat.Population(config)
@@ -531,7 +580,7 @@ def simulate_training():
     population.add_reporter(stats)
 
     # Clear the training CSV file
-    with open('../data/training_fitness.csv', 'w', newline='') as csv_file:
+    with open("../data/training_fitness.csv", "w", newline="") as csv_file:
         pass
 
     # Run Simulation for the number of epochs specified
@@ -555,7 +604,7 @@ def simulate_independent():
     train_perc = 1
 
     # Clear the independent training CSV file
-    with open('../data/independent_fitness.csv', 'w', newline='') as csv_file:
+    with open("../data/independent_fitness.csv", "w", newline="") as csv_file:
         pass
 
     # Run separate training for each track
@@ -568,11 +617,13 @@ def simulate_independent():
 
         # Load Config
         config_path = "../config/config.txt"
-        config = neat.config.Config(neat.DefaultGenome,
-                                    neat.DefaultReproduction,
-                                    neat.DefaultSpeciesSet,
-                                    neat.DefaultStagnation,
-                                    config_path)
+        config = neat.config.Config(
+            neat.DefaultGenome,
+            neat.DefaultReproduction,
+            neat.DefaultSpeciesSet,
+            neat.DefaultStagnation,
+            config_path,
+        )
 
         # Create Population And Add Reporters
         population = neat.Population(config)
@@ -604,7 +655,7 @@ def simulate_testing():
         return
 
     # Clear the testing CSV file
-    with open('../data/testing_fitness.csv', 'w', newline='') as csv_file:
+    with open("../data/testing_fitness.csv", "w", newline="") as csv_file:
         pass
 
     # Run Simulation for each testing track
@@ -625,7 +676,7 @@ def simulate_tortoise():
     current_generation = 0
 
     # Clear the tortoise_fitness CSV file
-    with open('../data/tortoise_fitness.csv', 'w', newline='') as csv_file:
+    with open("../data/tortoise_fitness.csv", "w", newline="") as csv_file:
         pass
 
     # Run Simulation once for each track
@@ -645,7 +696,7 @@ def simulate_hare():
     current_generation = 0
 
     # Clear the hare_fitness CSV file
-    with open('../data/hare_fitness.csv', 'w', newline='') as csv_file:
+    with open("../data/hare_fitness.csv", "w", newline="") as csv_file:
         pass
 
     # Run Simulation once for each track
@@ -697,7 +748,7 @@ def training_progress_onclick():
     global epochs
 
     # Read the data and store in dataframe
-    training_data = read_from_csv('../data/training_fitness.csv')
+    training_data = read_from_csv("../data/training_fitness.csv")
     df = pd.DataFrame(training_data)
     # Start index at 1
     df.index += 1
@@ -733,28 +784,45 @@ def training_progress_onclick():
     epoch_avg_best_series = pd.Series(epoch_avg_best, index=generations_per_epoch_list)
 
     # Create a dataframe with average and max distance values
-    distances_df = pd.DataFrame({'Average Distance': avg_distance, 'Best Distance': max_distance,
-                                 'Average Best Distance per Epoch': epoch_avg_best_series})
+    distances_df = pd.DataFrame(
+        {
+            "Average Distance": avg_distance,
+            "Best Distance": max_distance,
+            "Average Best Distance per Epoch": epoch_avg_best_series,
+        }
+    )
 
     # Interpolate missing values in epoch_avg_best_series to get a steady line
-    distances_df['Average Best Distance per Epoch'] = distances_df['Average Best Distance per Epoch'].interpolate()
+    distances_df["Average Best Distance per Epoch"] = distances_df[
+        "Average Best Distance per Epoch"
+    ].interpolate()
 
     # Plot a line graph showing average and max distance value over generations
     plt.figure(figsize=(12, 8))
-    plt.plot(distances_df.index, distances_df['Average Distance'], label='Average Distance', linestyle='dashed')
+    plt.plot(
+        distances_df.index,
+        distances_df["Average Distance"],
+        label="Average Distance",
+        linestyle="dashed",
+    )
     # plt.plot(distances_df.index, distances_df['Best Distance'], label='Best Distance', linestyle='dashed')
 
     # Plot line showing the Average Best Distance per Epoch
-    plt.plot(distances_df.index, distances_df['Average Best Distance per Epoch'],
-             label='Average Best Distance per Epoch', linewidth=2, color='orange')
+    plt.plot(
+        distances_df.index,
+        distances_df["Average Best Distance per Epoch"],
+        label="Average Best Distance per Epoch",
+        linewidth=2,
+        color="orange",
+    )
 
     # Plot markers showing the Average Best Distance per Epoch when each epoch was completed
     for generation, distance in epoch_avg_best_series.items():
-        plt.plot(generation, distance, marker='o', markersize=10, color='orange')
+        plt.plot(generation, distance, marker="o", markersize=10, color="orange")
 
-    plt.xlabel('Generation')
-    plt.ylabel('Distance Travelled (Fitness)')
-    plt.title('Training Progress')
+    plt.xlabel("Generation")
+    plt.ylabel("Distance Travelled (Fitness)")
+    plt.title("Training Progress")
     plt.legend()
     plt.grid(True)
     plt.show()
@@ -764,7 +832,7 @@ def training_progress_onclick():
 # (Author: Nadan)
 def results_testing_onclick():
     # Read the data and store in dataframe
-    training_data = read_from_csv('../data/testing_fitness.csv')
+    training_data = read_from_csv("../data/testing_fitness.csv")
     df = pd.DataFrame(training_data)
 
     # Limit anomalous data points
@@ -774,12 +842,12 @@ def results_testing_onclick():
     max_distance = df.max(axis=1)
 
     # Create a dataframe with max distance values
-    distances_df = pd.DataFrame({'Best Distance': max_distance})
+    distances_df = pd.DataFrame({"Best Distance": max_distance})
 
-    distances_df.plot(kind='bar', figsize=(12, 8), color='lightblue')
-    plt.title('Best Distance Achieved by NEAT AI')
-    plt.xlabel('Track')
-    plt.ylabel('Distance Travelled (Fitness)')
+    distances_df.plot(kind="bar", figsize=(12, 8), color="lightblue")
+    plt.title("Best Distance Achieved by NEAT AI")
+    plt.xlabel("Track")
+    plt.ylabel("Distance Travelled (Fitness)")
     plt.xticks(range(len(testing_tracklist)), testing_tracklist)
     # plt.ylim(0, 600000)
     plt.show()
@@ -789,7 +857,7 @@ def results_testing_onclick():
 # (Author: Nadan)
 def results_independent():
     # Read the data and store in dataframe
-    independent_data = read_from_csv('../data/independent_fitness.csv')
+    independent_data = read_from_csv("../data/independent_fitness.csv")
     df = pd.DataFrame(independent_data)
 
     # Limit anomalous data points
@@ -799,30 +867,31 @@ def results_independent():
     max_distance = df.max(axis=1)
 
     # Create a dataframe with max distance values
-    distances_df = pd.DataFrame({'Best Distance': max_distance})
+    distances_df = pd.DataFrame({"Best Distance": max_distance})
 
-    distances_df.plot(kind='bar', figsize=(12, 8), color='Blue')
-    plt.title('Best Distance Achieved by NEAT AI After Independent Stage Training')
-    plt.xlabel('Track')
-    plt.ylabel('Distance Travelled (Fitness)')
+    distances_df.plot(kind="bar", figsize=(12, 8), color="Blue")
+    plt.title("Best Distance Achieved by NEAT AI After Independent Stage Training")
+    plt.xlabel("Track")
+    plt.ylabel("Distance Travelled (Fitness)")
     plt.xticks(range(len(reactive_tracklist)), reactive_tracklist)
     # plt.ylim(0, 600000)
     plt.show()
+
 
 # Handles tortoise results button onclick behaviour
 # (Author: Nadan)
 def results_tortoise_onclick():
     # Read the data and store in dataframe
-    tortoise_data = read_from_csv('../data/tortoise_fitness.csv')
-    df = pd.DataFrame(tortoise_data, columns=['Best Distance'])
+    tortoise_data = read_from_csv("../data/tortoise_fitness.csv")
+    df = pd.DataFrame(tortoise_data, columns=["Best Distance"])
 
     # Limit anomalous data points
     df[df > 1000000] = 1000000
 
-    df.plot(kind='bar', figsize=(12, 8), color='lightgreen')
-    plt.title('Best Distance Achieved by Tortoise Reactive Agent')
-    plt.xlabel('Track')
-    plt.ylabel('Distance Travelled (Fitness)')
+    df.plot(kind="bar", figsize=(12, 8), color="lightgreen")
+    plt.title("Best Distance Achieved by Tortoise Reactive Agent")
+    plt.xlabel("Track")
+    plt.ylabel("Distance Travelled (Fitness)")
     plt.xticks(range(len(reactive_tracklist)), reactive_tracklist)
     # plt.ylim(0, 600000)
     plt.show()
@@ -832,16 +901,16 @@ def results_tortoise_onclick():
 # (Author: Nadan)
 def results_hare_onclick():
     # Read the data and store in dataframe
-    hare_data = read_from_csv('../data/hare_fitness.csv')
-    df = pd.DataFrame(hare_data, columns=['Best Distance'])
+    hare_data = read_from_csv("../data/hare_fitness.csv")
+    df = pd.DataFrame(hare_data, columns=["Best Distance"])
 
     # Limit anomalous data points
     df[df > 1000000] = 1000000
 
-    df.plot(kind='bar', figsize=(12, 8), color='orange')
-    plt.title('Best Distance Achieved by Hare Reactive Agent')
-    plt.xlabel('Track')
-    plt.ylabel('Distance Travelled (Fitness)')
+    df.plot(kind="bar", figsize=(12, 8), color="orange")
+    plt.title("Best Distance Achieved by Hare Reactive Agent")
+    plt.xlabel("Track")
+    plt.ylabel("Distance Travelled (Fitness)")
     plt.xticks(range(len(reactive_tracklist)), reactive_tracklist)
     # plt.ylim(0, 600000)
     plt.show()
@@ -860,10 +929,14 @@ def update_onclick():
     do_bespoke_tests = int(do_bespoke_tests_var.get())
 
     # Save settings to config file
-    config['Settings'] = {'epochs': str(epochs), 'train_perc': str(train_perc),
-                          'do_shuffle': str(do_shuffle), 'seed': str(seed),
-                          'do_bespoke_tests': str(do_bespoke_tests)}
-    with open('../config/settings.ini', 'w') as settings_file:
+    config["Settings"] = {
+        "epochs": str(epochs),
+        "train_perc": str(train_perc),
+        "do_shuffle": str(do_shuffle),
+        "seed": str(seed),
+        "do_bespoke_tests": str(do_bespoke_tests),
+    }
+    with open("../config/settings.ini", "w") as settings_file:
         config.write(settings_file)
 
     # Update track lists
@@ -876,7 +949,7 @@ def read_from_csv(file_path):
     # Array to hold data
     data = []
     # Open csv file
-    with open(file_path, 'r') as csv_file:
+    with open(file_path, "r") as csv_file:
         csv_reader = csv.reader(csv_file)
         # Append each row into data array
         for row in csv_reader:
@@ -902,7 +975,7 @@ def update_tracklist():
     fixed_test_tracklist = [101, 102, 103, 104, 105]
 
     # Split the track list up to the percentage of training tracks specified
-    training_tracklist = rand_tracklist[:math.ceil(TRACK_NUM * train_perc)]
+    training_tracklist = rand_tracklist[: math.ceil(TRACK_NUM * train_perc)]
 
     # Decide on reactive and testing tracklists
     if do_bespoke_tests == 1:
@@ -911,7 +984,7 @@ def update_tracklist():
         reactive_tracklist = fixed_test_tracklist
     else:
         # Remainder of the track list after the training percentage is used for testing
-        testing_tracklist = rand_tracklist[math.ceil(TRACK_NUM * train_perc):]
+        testing_tracklist = rand_tracklist[math.ceil(TRACK_NUM * train_perc) :]
 
         # Reactive will test on the original tracks
         reactive_tracklist = tracklist
@@ -922,14 +995,14 @@ def update_tracklist():
 if __name__ == "__main__":
     # Open config file
     config = configparser.ConfigParser()
-    config.read('../config/settings.ini')
+    config.read("../config/settings.ini")
 
     # Load current values from the settings config file (If missing load fallback value)
-    epochs = int(config.get('Settings', 'epochs', fallback=3))
-    train_perc = float(config.get('Settings', 'train_perc', fallback=0.8))
-    do_shuffle = int(config.get('Settings', 'do_shuffle', fallback=1))
-    seed = int(config.get('Settings', 'seed', fallback=1))
-    do_bespoke_tests = int(config.get('Settings', 'do_bespoke_tests', fallback=0))
+    epochs = int(config.get("Settings", "epochs", fallback=3))
+    train_perc = float(config.get("Settings", "train_perc", fallback=0.8))
+    do_shuffle = int(config.get("Settings", "do_shuffle", fallback=1))
+    seed = int(config.get("Settings", "seed", fallback=1))
+    do_bespoke_tests = int(config.get("Settings", "do_bespoke_tests", fallback=0))
 
     # Update track lists
     update_tracklist()
@@ -949,53 +1022,103 @@ if __name__ == "__main__":
     app_frame.grid(row=0, column=0, padx=10, pady=10)
 
     # Create training button
-    train_button = tk.Button(app_frame, text="Start Training", command=start_train_onclick, width=button_width,
-                             height=button_height)
+    train_button = tk.Button(
+        app_frame,
+        text="Start Training",
+        command=start_train_onclick,
+        width=button_width,
+        height=button_height,
+    )
     train_button.grid(row=0, column=0, padx=5, pady=5)
 
     # Create training progress button
-    train_progress_button = tk.Button(app_frame, text="Show Training Progress", command=training_progress_onclick,
-                                      width=button_width, height=button_height)
+    train_progress_button = tk.Button(
+        app_frame,
+        text="Show Training Progress",
+        command=training_progress_onclick,
+        width=button_width,
+        height=button_height,
+    )
     train_progress_button.grid(row=0, column=1, padx=5, pady=5)
 
     # Create testing button
-    test_button = tk.Button(app_frame, text="Start Testing", command=start_test_onclick, width=button_width,
-                            height=button_height)
+    test_button = tk.Button(
+        app_frame,
+        text="Start Testing",
+        command=start_test_onclick,
+        width=button_width,
+        height=button_height,
+    )
     test_button.grid(row=1, column=0, padx=5, pady=5)
 
     # Create testing results button
-    test_results_button = tk.Button(app_frame, text="Show Test Results", command=results_testing_onclick,
-                                    width=button_width, height=button_height)
+    test_results_button = tk.Button(
+        app_frame,
+        text="Show Test Results",
+        command=results_testing_onclick,
+        width=button_width,
+        height=button_height,
+    )
     test_results_button.grid(row=1, column=1, padx=5, pady=5)
 
     # Create tortoise testing button
-    tortoise_button = tk.Button(app_frame, text="Run Tortoise", command=start_tortoise_onclick, width=button_width,
-                                height=button_height)
+    tortoise_button = tk.Button(
+        app_frame,
+        text="Run Tortoise",
+        command=start_tortoise_onclick,
+        width=button_width,
+        height=button_height,
+    )
     tortoise_button.grid(row=2, column=0, padx=5, pady=5)
 
     # Create tortoise results button
-    tortoise_results_button = tk.Button(app_frame, text="Show Tortoise Results", command=results_tortoise_onclick,
-                                        width=button_width, height=button_height)
+    tortoise_results_button = tk.Button(
+        app_frame,
+        text="Show Tortoise Results",
+        command=results_tortoise_onclick,
+        width=button_width,
+        height=button_height,
+    )
     tortoise_results_button.grid(row=2, column=1, padx=5, pady=5)
 
     # Create hare testing button
-    hare_button = tk.Button(app_frame, text="Run Hare", command=start_hare_onclick, width=button_width,
-                            height=button_height)
+    hare_button = tk.Button(
+        app_frame,
+        text="Run Hare",
+        command=start_hare_onclick,
+        width=button_width,
+        height=button_height,
+    )
     hare_button.grid(row=3, column=0, padx=5, pady=5)
 
     # Create hare results button
-    hare_results_button = tk.Button(app_frame, text="Show Hare Results", command=results_hare_onclick,
-                                    width=button_width, height=button_height)
+    hare_results_button = tk.Button(
+        app_frame,
+        text="Show Hare Results",
+        command=results_hare_onclick,
+        width=button_width,
+        height=button_height,
+    )
     hare_results_button.grid(row=3, column=1, padx=5, pady=5)
 
     # Create independent training button
-    update_button = tk.Button(app_frame, text="Independent Training", command=independent_train_onclick,
-                              width=button_width, height=button_height)
+    update_button = tk.Button(
+        app_frame,
+        text="Independent Training",
+        command=independent_train_onclick,
+        width=button_width,
+        height=button_height,
+    )
     update_button.grid(row=4, column=0, padx=5, pady=5)
 
     # Create independent training results button
-    update_button = tk.Button(app_frame, text="Independent Training Results", command=results_independent,
-                              width=button_width, height=button_height)
+    update_button = tk.Button(
+        app_frame,
+        text="Independent Training Results",
+        command=results_independent,
+        width=button_width,
+        height=button_height,
+    )
     update_button.grid(row=4, column=1, padx=5, pady=5)
 
     # Create settings frame
@@ -1025,19 +1148,24 @@ if __name__ == "__main__":
 
     # Create do_shuffle checkbox
     do_shuffle_var = tk.IntVar()
-    do_shuffle_checkbox = tk.Checkbutton(settings_frame, text="Do Shuffle", variable=do_shuffle_var)
+    do_shuffle_checkbox = tk.Checkbutton(
+        settings_frame, text="Do Shuffle", variable=do_shuffle_var
+    )
     do_shuffle_checkbox.grid(row=3, column=0, padx=5, pady=5)
     do_shuffle_checkbox.select() if do_shuffle else do_shuffle_checkbox.deselect()
 
     # Create do_bespoke_tests checkbox
     do_bespoke_tests_var = tk.IntVar()
-    do_bespoke_tests_checkbox = tk.Checkbutton(settings_frame, text="Perform Bespoke Tests",
-                                               variable=do_bespoke_tests_var)
+    do_bespoke_tests_checkbox = tk.Checkbutton(
+        settings_frame, text="Perform Bespoke Tests", variable=do_bespoke_tests_var
+    )
     do_bespoke_tests_checkbox.grid(row=3, column=1, padx=5, pady=5)
     do_bespoke_tests_checkbox.select() if do_bespoke_tests else do_bespoke_tests_checkbox.deselect()
 
     # Create update button
-    update_button = tk.Button(settings_frame, text="Update Settings", command=update_onclick)
+    update_button = tk.Button(
+        settings_frame, text="Update Settings", command=update_onclick
+    )
     update_button.grid(row=4, column=1, padx=5, pady=5)
 
     root.mainloop()
