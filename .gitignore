@@ -1,0 +1,23 @@
+# IDE-specific files
+.idea/
+*.iml
+
+# Virtual environments
+venv/
+env/
+
+# Compiled files
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Data and results
+data/*.csv
